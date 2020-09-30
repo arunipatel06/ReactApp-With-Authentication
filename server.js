@@ -1,6 +1,10 @@
 require("dotenv").config();
 const express = require("express");
+const { ApolloServer } = require("apollo-server");
+const { typeDefs } = require("./schema");
+const { resolver } = require("./resolver");
 const { mongo } = require("./mongoClient");
+
 const app = express();
 
 app.get("/", async function (req, res) {
@@ -16,7 +20,9 @@ app.get("/", async function (req, res) {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+const server = new ApolloServer({ typeDefs, resolver });
+
+server.listen(PORT, () => {
   console.log(`Server is ready on http://localhost:${PORT} `);
 });
 
