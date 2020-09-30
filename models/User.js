@@ -12,7 +12,7 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-  jonDate: {
+  joinDate: {
     type: Date,
     default: Date.now,
   },
