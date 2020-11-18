@@ -1,5 +1,5 @@
-const { gql } = require("apollo-server");
-exports.typeDefs = gql`
+exports.typeDefs = `
+
   type Recipe {
     name: String!
     category: String!
@@ -19,7 +19,7 @@ exports.typeDefs = gql`
   }
 
   type Query {
-    getAllRecipes: [Recipe]
+    getAllRecipes: [Recipe] 
   }
 
   type Mutation {
@@ -31,4 +31,5 @@ exports.typeDefs = gql`
       username: String!
     ): Recipe
   }
+
 `;
