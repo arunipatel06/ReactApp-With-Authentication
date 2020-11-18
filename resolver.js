@@ -1,23 +1,33 @@
-exports.resolver = {
+const { mongo } = require("./mongoClient");
+
+// The resolvers
+exports.resolvers = {
   Query: {
-    getAllRecipes: () => {},
+    getAllRecipes: async (root, args) => {
+      console.log("inside get all receipe");
+      const db = await mongo();
+      db.collection("list")
+        .find()
+        .toArray(function (err, docs) {
+          if (err) throw err;
+          console.log(docs);
+        });
+      return [];
+    },
   },
 
   Mutation: {
-    addRecipe: async (
-      parent,
-      { name, description, category, instructions, username },
-      { Recipe }
-    ) => {
+    addRecipe: async (root, args) => {
       try {
-        const newRecipe = await Recipe({
-          name,
-          description,
-          category,
-          instructions,
-          username,
-        }).save();
-        return newRecipe;
+        const db = await mongo();
+        db.collection("list").insertOne({
+          name: args.name,
+          description: args.description,
+          category: args.category,
+          instructions: args.instructions,
+          username: args.username,
+        });
+        return args;
       } catch (error) {
         console.log(error);
       }
