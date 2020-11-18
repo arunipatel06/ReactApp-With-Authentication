@@ -4,7 +4,7 @@ const url = process.env.MONGODB_URL;
 
 exports.mongo = async () => {
   try {
-    const client = new MongoClient(url);
+    const client = new MongoClient(url, { useUnifiedTopology: true });
     await client.connect();
     return database(client);
   } catch (err) {
@@ -13,6 +13,6 @@ exports.mongo = async () => {
 };
 
 async function database(client) {
-  const db = await client.db("User");
+  const db = await client.db("receipe");
   return db;
 }
