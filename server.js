@@ -1,28 +1,24 @@
 require("dotenv").config();
 const express = require("express");
-const { ApolloServer } = require("apollo-server");
+const bodyParser = require("body-parser");
+const { graphqlExpress, graphiqlExpress } = require("apollo-server-express");
+// const { buildFederatedSchema } = require("@apollo/federation");
 const { typeDefs } = require("./schema");
-const { resolver } = require("./resolver");
-const { mongo } = require("./mongoClient");
+const { resolvers } = require("./resolver");
+const { makeExecutableSchema } = require("graphql-tools");
 
 const app = express();
 
-app.get("/", async function (req, res) {
-  const db = await mongo();
-  console.log("DB Connected.....");
-
-  db.collection("userlist")
-    .find()
-    .toArray(function (err, docs) {
-      if (err) throw err;
-      console.log(docs);
-    });
-  res.send("done");
+const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers,
 });
 
+// The GraphQL endpoint
+app.use("/graphql", bodyParser.json(), graphqlExpress({ schema }));
+app.use("/graphiql", graphiqlExpress({ endpointURL: "/graphql" }));
 const PORT = process.env.PORT || 4000;
-const server = new ApolloServer({ typeDefs, resolver });
 
-server.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`Server is ready on http://localhost:${PORT} `);
 });
