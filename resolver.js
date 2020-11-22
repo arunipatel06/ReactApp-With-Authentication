@@ -1,5 +1,6 @@
 const { mongo } = require("./mongoClient");
-
+const { v4: uuidv4 } = require("uuid");
+const { encodePassword } = require("./utils.js");
 // The resolvers
 exports.resolvers = {
   Query: {
@@ -29,7 +30,27 @@ exports.resolvers = {
         });
         return args;
       } catch (error) {
-        console.log(error);
+        console.log(error.message);
+      }
+    },
+
+    createUser: async (root, { username, password }) => {
+      try {
+        const db = await mongo();
+        const accountId = uuidv4();
+        const createdAt = Math.floor(new Date().getTime() / 1000);
+        const encodedPassword = await encodePassword(password);
+
+        db.collection("users").insertOne({
+          username,
+          password: encodedPassword,
+          accountId,
+          createdAt,
+        });
+        return { username, accountId, createdAt };
+      } catch (error) {
+        console.log(error.message);
+        throw new Error(error.message);
       }
     },
   },
