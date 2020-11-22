@@ -11,8 +11,10 @@ exports.typeDefs = `
   }
 
   type User {
+    accountId: String!
     username: String! @unique
-    password: String!
+    createdAt:Int
+    password: String
     joinDate: String
     email: String
     favourites: [Recipe]
@@ -30,6 +32,9 @@ exports.typeDefs = `
       instructions: String!
       username: String!
     ): Recipe
+
+    createUser(username:String! password:String!): User
   }
+
 
 `;
