@@ -11,7 +11,7 @@ exports.encodePassword = async (password) => {
   }
 };
 
-//compare current password with register password
+//compare current password with registered password
 exports.comparePassword = async (registeredPassword, enteredPassword) => {
   try {
     const isSame = await bcrypt.compare(enteredPassword, registeredPassword);
