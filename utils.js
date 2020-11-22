@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 
-//encode
+//encode password
 exports.encodePassword = async (password) => {
   try {
     const salt = await bcrypt.genSalt(10);
@@ -11,6 +11,7 @@ exports.encodePassword = async (password) => {
   }
 };
 
+//compare current password with register password
 exports.comparePassword = async (registeredPassword, enteredPassword) => {
   try {
     const isSame = await bcrypt.compare(enteredPassword, registeredPassword);
