@@ -1,24 +1,16 @@
-require("dotenv").config();
-const express = require("express");
-const bodyParser = require("body-parser");
-const { graphqlExpress, graphiqlExpress } = require("apollo-server-express");
-// const { buildFederatedSchema } = require("@apollo/federation");
-const { typeDefs } = require("./schema");
-const { resolvers } = require("./resolver");
-const { makeExecutableSchema } = require("graphql-tools");
+/* eslint-disable no-console */
+require('dotenv').config();
+const express = require('express');
+const { ApolloServer } = require('apollo-server-express');
+const { typeDefs } = require('./schema');
+const { resolvers } = require('./resolver');
 
 const app = express();
+const server = new ApolloServer({ typeDefs, resolvers });
 
-const schema = makeExecutableSchema({
-  typeDefs,
-  resolvers,
-});
+server.applyMiddleware({ app });
 
-// The GraphQL endpoint
-app.use("/graphql", bodyParser.json(), graphqlExpress({ schema }));
-app.use("/graphiql", graphiqlExpress({ endpointURL: "/graphql" }));
 const PORT = process.env.PORT || 4000;
-
 app.listen(PORT, () => {
-  console.log(`Server is ready on http://localhost:${PORT} `);
+  console.log(`🚀Server is ready on http://localhost:${PORT}`);
 });
