@@ -20,9 +20,12 @@ exports.typeDefs = gql`
     email: String
     favourites: [Recipe]
   }
-
+  type loginInfo {
+    isMatch: Boolean
+  }
   type Query {
     getAllRecipes: [Recipe]
+    signIn(username: String!, password: String!): loginInfo
   }
 
   type Mutation {

@@ -1,19 +1,45 @@
-const { mongo } = require("./mongoClient");
-const { v4: uuidv4 } = require("uuid");
-const { encodePassword } = require("./utils.js");
+/* eslint-disable consistent-return */
+/* eslint-disable func-names */
+/* eslint-disable no-console */
+const { v4: uuidv4 } = require('uuid');
+const { mongo } = require('./mongoClient');
+const { encodePassword } = require('./utils.js');
+const { comparePassword } = require('./utils.js');
+
 // The resolvers
 exports.resolvers = {
   Query: {
     getAllRecipes: async (root, args) => {
-      console.log("inside get all receipe");
+      let recipes = [];
       const db = await mongo();
-      db.collection("list")
+      await db
+        .collection('list')
         .find()
-        .toArray(function (err, docs) {
-          if (err) throw err;
-          console.log(docs);
+        .toArray()
+        .then((docs) => {
+          recipes = docs;
         });
-      return [];
+      return recipes;
+    },
+
+    signIn: async (root, { username, password }) => {
+      try {
+        let user = {};
+        const db = await mongo();
+        await db
+          .collection('users')
+          .findOne({ username })
+          .then((docs) => {
+            user = docs;
+          });
+
+        if (!user) return 'User Not Exist';
+        const isMatch = await comparePassword(user.password, password);
+        return { isMatch };
+      } catch (error) {
+        console.log(error.message);
+        throw new Error(error.message);
+      }
     },
   },
 
@@ -21,7 +47,7 @@ exports.resolvers = {
     addRecipe: async (root, args) => {
       try {
         const db = await mongo();
-        db.collection("list").insertOne({
+        db.collection('list').insertOne({
           name: args.name,
           description: args.description,
           category: args.category,
@@ -30,7 +56,7 @@ exports.resolvers = {
         });
         return args;
       } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
       }
     },
 
@@ -41,7 +67,7 @@ exports.resolvers = {
         const createdAt = Math.floor(new Date().getTime() / 1000);
         const encodedPassword = await encodePassword(password);
 
-        db.collection("users").insertOne({
+        db.collection('users').insertOne({
           username,
           password: encodedPassword,
           accountId,

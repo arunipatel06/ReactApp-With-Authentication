@@ -1,4 +1,6 @@
-const bcrypt = require("bcrypt");
+/* eslint-disable no-console */
+/* eslint-disable spaced-comment */
+const bcrypt = require('bcrypt');
 
 //encode password
 exports.encodePassword = async (password) => {
