@@ -23,6 +23,7 @@ exports.typeDefs = gql`
 
   type Query {
     getAllRecipes: [Recipe]
+    signIn(username: String!, password: String!): Boolean
   }
 
   type Mutation {
