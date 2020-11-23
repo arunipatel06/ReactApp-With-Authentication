@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import { Route, BrowserRouter } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
-// import ExchangeRates from "./ExchangeRates";
 import { ApolloClient, InMemoryCache } from '@apollo/client';
-
 import './App.css';
-import UserList from './Form_Practice/UserList';
-import VehicleData from './VehicleData';
-import Practice from './Practice';
+import LoginForm from './LoginForm';
+import CreateUser from './CreateUser';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
@@ -20,10 +17,8 @@ class App extends Component {
       <div>
         <BrowserRouter>
           <ApolloProvider client={client}>
-            <Route exact path="/userlist" component={UserList} />
-            {/* <Route path="/vehicle/:id" component={ExchangeRates} /> */}
-            <Route path="/data/:id" component={VehicleData} />
-            <Route path="/info/:id" component={Practice} />
+            <Route exact path="/form" component={LoginForm} />
+            <Route exact path="/adduser" component={CreateUser} />
           </ApolloProvider>
         </BrowserRouter>
       </div>
