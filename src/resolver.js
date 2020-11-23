@@ -35,7 +35,7 @@ exports.resolvers = {
 
         if (!user) return 'User Not Exist';
         const isMatch = await comparePassword(user.password, password);
-        return isMatch;
+        return { isMatch };
       } catch (error) {
         console.log(error.message);
         throw new Error(error.message);
