@@ -1,5 +1,6 @@
-exports.typeDefs = `
+const { gql } = require('apollo-server-express');
 
+exports.typeDefs = gql`
   type Recipe {
     name: String!
     category: String!
@@ -12,8 +13,8 @@ exports.typeDefs = `
 
   type User {
     accountId: String!
-    username: String! @unique
-    createdAt:Int
+    username: String!
+    createdAt: Int
     password: String
     joinDate: String
     email: String
@@ -21,7 +22,7 @@ exports.typeDefs = `
   }
 
   type Query {
-    getAllRecipes: [Recipe] 
+    getAllRecipes: [Recipe]
   }
 
   type Mutation {
@@ -33,8 +34,6 @@ exports.typeDefs = `
       username: String!
     ): Recipe
 
-    createUser(username:String! password:String!): User
+    createUser(username: String!, password: String!): User
   }
-
-
 `;
