@@ -5,6 +5,7 @@ import { ApolloClient, InMemoryCache } from '@apollo/client';
 import './App.css';
 import LoginForm from './LoginForm';
 import CreateUser from './CreateUser';
+import HomePage from '../HomePage';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
@@ -19,6 +20,7 @@ class App extends Component {
           <ApolloProvider client={client}>
             <Route exact path="/form" component={LoginForm} />
             <Route exact path="/adduser" component={CreateUser} />
+            <Route exact path="/homepage" component={HomePage} />
           </ApolloProvider>
         </BrowserRouter>
       </div>
