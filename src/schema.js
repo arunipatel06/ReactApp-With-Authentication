@@ -12,12 +12,13 @@ exports.typeDefs = gql`
   }
 
   type User {
+    firstName: String!
+    lastName: String
     accountId: String!
-    username: String!
+    emailAddress: String!
     createdAt: Int
     password: String
     joinDate: String
-    email: String
     favourites: [Recipe]
   }
   type loginInfo {
@@ -25,7 +26,7 @@ exports.typeDefs = gql`
   }
   type Query {
     getAllRecipes: [Recipe]
-    signIn(username: String!, password: String!): loginInfo
+    signIn(emailAddress: String!, password: String!): loginInfo
   }
 
   type Mutation {
@@ -37,6 +38,6 @@ exports.typeDefs = gql`
       username: String!
     ): Recipe
 
-    createUser(username: String!, password: String!): User
+    createUser(firstName: String!, lastName: String, emailAddress: String!, password: String!): User
   }
 `;
