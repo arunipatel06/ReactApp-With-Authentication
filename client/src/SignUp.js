@@ -13,13 +13,13 @@ import {
   CircularProgress,
   Divider,
   Modal,
+  Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Clear } from '@material-ui/icons';
 
 //images
 import LoginForm from './assests/LoginForm.jpg';
-import SignUpForm from './assests/SignUpForm.jpg';
 
 //icons
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     width: '365px',
     backgroundColor: theme.palette.background.default,
-    margin: '100px auto 0px',
+    margin: '100px auto 50px',
     outline: 0,
     overflowY: 'hidden',
     [theme.breakpoints.up('md')]: {
@@ -74,11 +74,48 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'sans-serif',
     width: '100%',
   },
-  LoginImage: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'block',
-    },
+  button: {
+    fontWeight: '600',
+    color: 'white',
+    background: '#c5b1db',
+    padding: '10px 27px',
+    textTransform: 'none',
+    width: '250px',
+  },
+  loginButton: {
+    backgroundColor: 'transparent',
+  },
+  loginText: {
+    textAlign: 'center',
+    padding: '10px 55px',
+  },
+  SignUpImage: {
+    width: '50%',
+    textAlign: 'center',
+    backgroundImage: `url(${LoginForm})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    padding: '0px',
+  },
+  imageTitle: {
+    margin: '30',
+    fontFamily: '"Mada", sans-serif',
+    fontWeight: 600,
+    fontSize: '36px',
+    lineHeight: '51px',
+    color: '#ffffff',
+  },
+  imageText: {
+    fontFamily: '"Mada", sans-serif',
+    fontWeight: 400,
+    fontSize: '20px',
+    lineHeight: '40px',
+    color: '#ffffff',
   },
 }));
 
@@ -100,7 +137,7 @@ const ADDUSER = gql`
   }
 `;
 
-const SignUp = ({ openSignUp, setOpenSignUp }) => {
+const SignUp = ({ openSignUp, setOpenSignUp, setOpenLogin }) => {
   const classes = useStyles();
   const [state, setState] = useState({
     firstName: '',
@@ -241,13 +278,30 @@ const SignUp = ({ openSignUp, setOpenSignUp }) => {
                       Sign Up
                     </Button>
                   </Grid>
+                  <div className={classes.loginText}>
+                    Already a customer?
+                    <Button
+                      className={classes.loginButton}
+                      onClick={() => {
+                        setOpenSignUp(false);
+                        setOpenLogin(true);
+                      }}
+                    >
+                      Log In
+                    </Button>
+                  </div>
                 </Grid>
               </form>
             </div>
           </Grid>
 
           <Grid item xs={12} md={6} className={classes.SignUpImage}>
-            <img alt="noimage" src={SignUpForm} style={{ height: '100%', width: '100%' }} />
+            <section>
+              <Typography className={classes.imageTitle}>Hello There!</Typography>
+              <Typography className={classes.imageText}>
+                Enter your details and start journey with us.
+              </Typography>
+            </section>
           </Grid>
         </Grid>
       </div>

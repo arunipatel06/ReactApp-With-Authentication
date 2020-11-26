@@ -11,6 +11,7 @@ import {
   CircularProgress,
   Divider,
   Modal,
+  Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Clear } from '@material-ui/icons';
@@ -40,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
   formContainer: {
     overflow: 'hidden',
-    padding: '10px 50px',
+    padding: '90px 50px 140px',
   },
   header: {
     display: 'flex',
@@ -71,11 +72,48 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'sans-serif',
     width: '100%',
   },
+  button: {
+    fontWeight: '600',
+    color: 'white',
+    background: '#c5b1db',
+    padding: '10px 27px',
+    textTransform: 'none',
+    width: '250px',
+  },
+  signUpButton: {
+    backgroundColor: 'transparent',
+  },
+  signUpText: {
+    textAlign: 'center',
+    padding: '10px 55px',
+  },
   LoginImage: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'block',
-    },
+    width: '50%',
+    textAlign: 'center',
+    backgroundImage: `url(${LoginForm})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    padding: '0px',
+  },
+  imageTitle: {
+    margin: '30',
+    fontFamily: '"Mada", sans-serif',
+    fontWeight: 600,
+    fontSize: '36px',
+    lineHeight: '51px',
+    color: '#ffffff',
+  },
+  imageText: {
+    fontFamily: '"Mada", sans-serif',
+    fontWeight: 400,
+    fontSize: '20px',
+    lineHeight: '40px',
+    color: '#ffffff',
   },
 }));
 
@@ -87,7 +125,7 @@ const ISLOGIN = gql`
   }
 `;
 
-const Login = ({ openLogin, setOpenLogin }) => {
+const Login = ({ openLogin, setOpenLogin, setOpenSignUp }) => {
   const classes = useStyles();
   const [state, setState] = useState({
     emailAddress: '',
@@ -147,7 +185,14 @@ const Login = ({ openLogin, setOpenLogin }) => {
         >
           <Clear />
         </IconButton>
+
         <Grid container>
+          <Grid item xs={12} md={6} className={classes.LoginImage}>
+            <section>
+              <Typography className={classes.imageTitle}>Welcome Back!</Typography>
+              <Typography className={classes.imageText}>Glad that you are here.</Typography>
+            </section>
+          </Grid>
           <Grid item xs={12} md={6}>
             <div className={classes.header}>
               <div className={classes.title}>Log In</div>
@@ -191,16 +236,25 @@ const Login = ({ openLogin, setOpenLogin }) => {
                       className={classes.button}
                       endIcon={<ArrowRightAltIcon />}
                     >
-                      Log In
+                      Login
                     </Button>
                   </Grid>
+
+                  <div className={classes.signUpText}>
+                    Don't have an account?
+                    <Button
+                      className={classes.signUpButton}
+                      onClick={() => {
+                        setOpenSignUp(true);
+                        setOpenLogin(false);
+                      }}
+                    >
+                      Sign Up
+                    </Button>
+                  </div>
                 </Grid>
               </form>
             </div>
-          </Grid>
-
-          <Grid item xs={12} md={6} className={classes.LoginImage}>
-            <img alt="Revre" src={LoginForm} style={{ height: '100%', width: '100%' }} />
           </Grid>
         </Grid>
       </div>

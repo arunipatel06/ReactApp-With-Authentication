@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Login from './Login';
 import SignUp from './SignUp';
 
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+
 const useStyles = makeStyles((theme) => ({
   navbar: {
     width: '100%',
@@ -66,17 +68,18 @@ const NewNavbar = (props) => {
       <div className={classes.navbar}>
         <div className={classes.wContainer}>
           <div className={classes.buttonContainer}>
-            <Button className={classes.button} onClick={() => setOpenLogin(true)}>
+            <Button
+              startIcon={<AccountCircleIcon />}
+              className={classes.button}
+              onClick={() => setOpenLogin(true)}
+            >
               Log IN
-            </Button>
-            <Button className={classes.button} onClick={() => setOpenSignUp(true)}>
-              Sign UP
             </Button>
           </div>
         </div>
       </div>
-      <Login openLogin={openLogin} setOpenLogin={setOpenLogin} />
-      <SignUp openSignUp={openSignUp} setOpenSignUp={setOpenSignUp} />
+      <Login openLogin={openLogin} setOpenLogin={setOpenLogin} setOpenSignUp={setOpenSignUp} />
+      <SignUp openSignUp={openSignUp} setOpenSignUp={setOpenSignUp} setOpenLogin={setOpenLogin} />
     </Fragment>
   );
 };
