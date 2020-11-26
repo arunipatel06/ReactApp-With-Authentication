@@ -22,13 +22,13 @@ exports.resolvers = {
       return recipes;
     },
 
-    signIn: async (root, { username, password }) => {
+    signIn: async (root, { emailAddress, password }) => {
       try {
         let user = {};
         const db = await mongo();
         await db
           .collection('users')
-          .findOne({ username })
+          .findOne({ emailAddress })
           .then((docs) => {
             user = docs;
           });
@@ -60,7 +60,7 @@ exports.resolvers = {
       }
     },
 
-    createUser: async (root, { username, password }) => {
+    createUser: async (root, { firstName, lastName, emailAddress, password }) => {
       try {
         const db = await mongo();
         const accountId = uuidv4();
@@ -68,12 +68,14 @@ exports.resolvers = {
         const encodedPassword = await encodePassword(password);
 
         db.collection('users').insertOne({
-          username,
+          firstName,
+          lastName,
+          emailAddress,
           password: encodedPassword,
           accountId,
           createdAt,
         });
-        return { username, accountId, createdAt };
+        return { firstName, lastName, emailAddress, accountId, createdAt };
       } catch (error) {
         console.log(error.message);
         throw new Error(error.message);
