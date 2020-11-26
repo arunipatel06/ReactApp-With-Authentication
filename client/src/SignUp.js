@@ -1,4 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
+import { gql, useMutation } from '@apollo/client';
+
 import {
   IconButton,
   Button,
@@ -21,7 +23,8 @@ import SignUpForm from './assests/SignUpForm.jpg';
 
 //icons
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
-import EmailIcon from '@material-ui/icons/Email';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -79,19 +82,74 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const ADDUSER = gql`
+  mutation createUser(
+    $firstName: String!
+    $lastName: String!
+    $emailAddress: String!
+    $password: String!
+  ) {
+    createUser(
+      firstName: $firstName
+      lastName: $lastName
+      emailAddress: $emailAddress
+      password: $password
+    ) {
+      accountId
+    }
+  }
+`;
+
 const SignUp = ({ openSignUp, setOpenSignUp }) => {
   const classes = useStyles();
   const [state, setState] = useState({
-    username: '',
+    firstName: '',
+    lastName: '',
     emailAddress: '',
     password: '',
   });
 
+  const [addUserInfo, setUserInfo] = useState('');
   const [showDialog, setShowDialog] = useState(false);
+  const [formLoading, setFormLoading] = useState(true);
+  const [formSuccess, setFormSuccess] = useState(true);
+
+  const [runQuery, { loading, error, data }] = useMutation(ADDUSER, {
+    variables: {
+      firstName: addUserInfo.firstName,
+      lastName: addUserInfo.lastName,
+      emailAddress: addUserInfo.emailAddress,
+      password: addUserInfo.password,
+    },
+  });
+  if (data) console.log('dataa', data);
+
+  useEffect(() => {
+    if (loading) setFormLoading(true);
+    if (error) return;
+    if (data) {
+      setFormLoading(false);
+      if (data?.createUser?.accountId) setFormSuccess(true);
+      else setFormSuccess(false);
+    }
+  }, [loading, error, data]);
+
+  useEffect(() => {
+    if (Object.keys(addUserInfo).length === 0) return;
+    console.log('addUserInfo', addUserInfo);
+    runQuery();
+  }, [addUserInfo]);
 
   const submitSignUp = () => {
     setShowDialog(true);
-    setState({ username: '', password: '' });
+
+    setUserInfo({
+      firstName: state.firstName,
+      lastName: state.lastName,
+      emailAddress: state.emailAddress,
+      password: state.password,
+    });
+    setState({ firstName: '', lastName: '', emailAddress: '', password: '' });
   };
 
   const handleChange = (name) => (event) => {
@@ -110,7 +168,7 @@ const SignUp = ({ openSignUp, setOpenSignUp }) => {
         <Grid container>
           <Grid item xs={12} md={6}>
             <div className={classes.header}>
-              <div className={classes.title}>Log In</div>
+              <div className={classes.title}>Sign Up</div>
             </div>
             <Divider />
             <div className={classes.formContainer}>
@@ -123,38 +181,54 @@ const SignUp = ({ openSignUp, setOpenSignUp }) => {
                 <Grid container spacing={1} style={{ textAlign: 'center', overflow: 'hidden' }}>
                   <Grid className={classes.left} item xs={12}>
                     <div className={classes.textTitle} style={{ marginTop: '10px' }}>
-                      Username
+                      First Name
                     </div>
                     <TextField
-                      onChange={handleChange('username')}
-                      value={state.username}
+                      onChange={handleChange('firstName')}
+                      value={state.firstName}
                       className={classes.TextField}
-                      placeholder="Please enter your username"
+                      placeholder="Please enter your firstname"
                       variant="outlined"
                     />
                   </Grid>
-                  <Grid container spacing={1} style={{ textAlign: 'center', overflow: 'hidden' }}>
-                    <Grid className={classes.left} item xs={12}>
-                      <div className={classes.textTitle} style={{ marginTop: '10px' }}>
-                        Email Address
-                      </div>
-                      <TextField
-                        onChange={handleChange('emailAddress')}
-                        value={state.emailAddress}
-                        className={classes.TextField}
-                        placeholder="Please enter your email address"
-                        variant="outlined"
-                      />
-                    </Grid>
+                </Grid>
+                <Grid container spacing={1} style={{ textAlign: 'center', overflow: 'hidden' }}>
+                  <Grid className={classes.left} item xs={12}>
+                    <div className={classes.textTitle} style={{ marginTop: '10px' }}>
+                      Last Name
+                    </div>
+                    <TextField
+                      onChange={handleChange('lastName')}
+                      value={state.lastName}
+                      className={classes.TextField}
+                      placeholder="Please enter your lastname"
+                      variant="outlined"
+                    />
                   </Grid>
+                </Grid>
+                <Grid container spacing={1} style={{ textAlign: 'center', overflow: 'hidden' }}>
+                  <Grid className={classes.left} item xs={12}>
+                    <div className={classes.textTitle} style={{ marginTop: '10px' }}>
+                      Email Address
+                    </div>
+                    <TextField
+                      onChange={handleChange('emailAddress')}
+                      value={state.emailAddress}
+                      className={classes.TextField}
+                      placeholder="Please enter your Email Address"
+                      variant="outlined"
+                    />
+                  </Grid>
+
                   <Grid className={classes.left} item xs={12}>
                     <div className={classes.textTitle}>Password</div>
                     <TextField
                       className={classes.TextField}
                       onChange={handleChange('password')}
-                      value={state.emailAddress}
+                      value={state.password}
                       placeholder="Please enter password"
                       variant="outlined"
+                      type="password"
                     />
                   </Grid>
                   <Grid item xs={12} style={{ marginTop: '15px' }}>
@@ -164,7 +238,7 @@ const SignUp = ({ openSignUp, setOpenSignUp }) => {
                       className={classes.button}
                       endIcon={<ArrowRightAltIcon />}
                     >
-                      Log In
+                      Sign Up
                     </Button>
                   </Grid>
                 </Grid>
@@ -173,7 +247,7 @@ const SignUp = ({ openSignUp, setOpenSignUp }) => {
           </Grid>
 
           <Grid item xs={12} md={6} className={classes.SignUpImage}>
-            <img alt="Revre" src={SignUpForm} style={{ height: '100%', width: '100%' }} />
+            <img alt="noimage" src={SignUpForm} style={{ height: '100%', width: '100%' }} />
           </Grid>
         </Grid>
       </div>
@@ -186,7 +260,20 @@ const SignUp = ({ openSignUp, setOpenSignUp }) => {
         setShowDialog(false);
       }}
       openLogin={showDialog}
-    ></Dialog>
+    >
+      <DialogTitle id="responsive-dialog-title">{'Processing... '}</DialogTitle>
+      <DialogContent>
+        <div style={{ textAlign: 'center', margin: '10px auto' }}>
+          {formLoading ? (
+            <CircularProgress />
+          ) : formSuccess ? (
+            <CheckCircleOutlineIcon style={{ fontSize: '50px', color: 'green' }} />
+          ) : (
+            <CancelIcon style={{ fontSize: '50px', color: 'red' }} />
+          )}
+        </div>
+      </DialogContent>
+    </Dialog>
   );
   return (
     <Fragment>
