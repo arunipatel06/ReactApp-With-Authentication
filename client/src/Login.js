@@ -5,7 +5,6 @@ import {
   Button,
   Grid,
   TextField,
-  InputAdornment,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -81,8 +80,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ISLOGIN = gql`
-  query signIn($username: String!, $password: String!) {
-    signIn(username: $username, password: $password) {
+  query signIn($emailAddress: String!, $password: String!) {
+    signIn(emailAddress: $emailAddress, password: $password) {
       isMatch
     }
   }
@@ -91,7 +90,7 @@ const ISLOGIN = gql`
 const Login = ({ openLogin, setOpenLogin }) => {
   const classes = useStyles();
   const [state, setState] = useState({
-    username: '',
+    emailAddress: '',
     password: '',
   });
   const [LoginInfo, setLoginInfo] = useState('');
@@ -101,11 +100,11 @@ const Login = ({ openLogin, setOpenLogin }) => {
 
   const [runQuery, { loading, error, data }] = useLazyQuery(ISLOGIN, {
     variables: {
-      username: LoginInfo.username,
+      emailAddress: LoginInfo.emailAddress,
       password: LoginInfo.password,
     },
   });
-  if (data) console.log('Dtaaaaaa', data);
+  if (data) console.log('Data: ', data);
 
   useEffect(() => {
     if (loading) setFormLoading(true);
@@ -126,11 +125,11 @@ const Login = ({ openLogin, setOpenLogin }) => {
   const submitLogin = () => {
     setShowDialog(true);
     setLoginInfo({
-      username: state.username,
+      emailAddress: state.emailAddress,
       password: state.password,
     });
     setState({
-      username: '',
+      emailAddress: '',
       password: '',
     });
   };
@@ -164,13 +163,13 @@ const Login = ({ openLogin, setOpenLogin }) => {
                 <Grid container spacing={1} style={{ textAlign: 'center', overflow: 'hidden' }}>
                   <Grid className={classes.left} item xs={12}>
                     <div className={classes.textTitle} style={{ marginTop: '10px' }}>
-                      Username
+                      Email Address
                     </div>
                     <TextField
-                      onChange={handleChange('username')}
-                      value={state.username}
+                      onChange={handleChange('emailAddress')}
+                      value={state.emailAddress}
                       className={classes.TextField}
-                      placeholder="Please enter your username"
+                      placeholder="Please enter your emailaddress"
                       variant="outlined"
                     />
                   </Grid>
@@ -179,9 +178,10 @@ const Login = ({ openLogin, setOpenLogin }) => {
                     <TextField
                       className={classes.TextField}
                       onChange={handleChange('password')}
-                      value={state.emailAddress}
+                      value={state.password}
                       placeholder="Please enter password"
                       variant="outlined"
+                      type="password"
                     />
                   </Grid>
                   <Grid item xs={12} style={{ marginTop: '15px' }}>
