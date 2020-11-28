@@ -152,6 +152,10 @@ const Login = ({ openLogin, setOpenLogin, setOpenSignUp, setloggedIn }) => {
       if (data?.signIn?.isMatch) {
         setloggedIn(true);
         setFormSuccess(true);
+        setOpenLogin(false);
+        setTimeout(() => {
+          setShowDialog(false);
+        }, 2000);
       } else setFormSuccess(false);
     }
   }, [loading, error, data]);
@@ -271,7 +275,13 @@ const Login = ({ openLogin, setOpenLogin, setOpenSignUp, setloggedIn }) => {
       open={showDialog}
       aria-labelledby="responsive-dialog-title"
     >
-      <DialogTitle id="responsive-dialog-title">{'Processing... '}</DialogTitle>
+      <DialogTitle id="responsive-dialog-title">
+        {formLoading
+          ? 'Processing... '
+          : formSuccess
+          ? 'Sign in successful.. '
+          : 'Incorrect username or password..'}
+      </DialogTitle>
       <DialogContent>
         <div style={{ textAlign: 'center', margin: '10px auto' }}>
           {formLoading ? (
