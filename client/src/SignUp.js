@@ -166,8 +166,14 @@ const SignUp = ({ openSignUp, setOpenSignUp, setOpenLogin }) => {
     if (error) return;
     if (data) {
       setFormLoading(false);
-      if (data?.createUser?.accountId) setFormSuccess(true);
-      else setFormSuccess(false);
+      if (data?.createUser?.accountId) {
+        setFormSuccess(true);
+        setOpenSignUp(false);
+        setTimeout(() => {
+          setShowDialog(false);
+          setOpenLogin(true);
+        }, 2000);
+      } else setFormSuccess(false);
     }
   }, [loading, error, data]);
 
@@ -313,9 +319,16 @@ const SignUp = ({ openSignUp, setOpenSignUp, setOpenLogin }) => {
       onClose={() => {
         setShowDialog(false);
       }}
-      openLogin={showDialog}
+      open={showDialog}
+      aria-labelledby="responsive-dialog-title"
     >
-      <DialogTitle id="responsive-dialog-title">{'Processing... '}</DialogTitle>
+      <DialogTitle id="responsive-dialog-title">
+        {formLoading
+          ? 'Processing... '
+          : formSuccess
+          ? 'Account created successfully. Please Login '
+          : 'Something went wrong..'}
+      </DialogTitle>
       <DialogContent>
         <div style={{ textAlign: 'center', margin: '10px auto' }}>
           {formLoading ? (
