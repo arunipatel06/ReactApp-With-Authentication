@@ -125,7 +125,7 @@ const ISLOGIN = gql`
   }
 `;
 
-const Login = ({ openLogin, setOpenLogin, setOpenSignUp }) => {
+const Login = ({ openLogin, setOpenLogin, setOpenSignUp, setloggedIn }) => {
   const classes = useStyles();
   const [state, setState] = useState({
     emailAddress: '',
@@ -149,8 +149,10 @@ const Login = ({ openLogin, setOpenLogin, setOpenSignUp }) => {
     if (error) return;
     if (data) {
       setFormLoading(false);
-      if (data?.signIn?.isMatch) setFormSuccess(true);
-      else setFormSuccess(false);
+      if (data?.signIn?.isMatch) {
+        setloggedIn(true);
+        setFormSuccess(true);
+      } else setFormSuccess(false);
     }
   }, [loading, error, data]);
 

@@ -23,19 +23,19 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
     zIndex: 1000,
-    backgroundColor: '#394c4e',
-    borderBottom: '2px solid #b9a61c',
-    boxShadow: '4px 4px 10px 0 rgba(0, 0, 0, 0.3)',
+    backgroundColor: 'transparent',
+    // borderBottom: '2px solid #b9a61c',
+    // boxShadow: '4px 4px 10px 0 rgba(0, 0, 0, 0.3)',
   },
   button: {
     transition: '0.5s',
     fontFamily: '"Mada", sans-serif',
-    color: 'white',
+    color: '#18465b',
     fontSize: '20px',
-    fontWeight: 'normal',
+    fontWeight: 'bold',
     margin: '0px 20px',
     '&:hover': {
-      color: '#e31b6d',
+      // backgroundColor: 'transparent',
     },
   },
   buttonContainer: {
@@ -62,23 +62,30 @@ const NewNavbar = (props) => {
   const classes = useStyles();
   const [openLogin, setOpenLogin] = useState(false);
   const [openSignUp, setOpenSignUp] = useState(false);
+  const [isloggedIn, setloggedIn] = useState(false);
 
   return (
     <Fragment>
       <div className={classes.navbar}>
         <div className={classes.wContainer}>
           <div className={classes.buttonContainer}>
-            <Button
-              startIcon={<AccountCircleIcon />}
-              className={classes.button}
-              onClick={() => setOpenLogin(true)}
-            >
-              Log IN
-            </Button>
+            {isloggedIn ? (
+              <AccountCircleIcon />
+            ) : (
+              <Button className={classes.button} onClick={() => setOpenLogin(true)}>
+                Sign In
+              </Button>
+            )}
           </div>
         </div>
       </div>
-      <Login openLogin={openLogin} setOpenLogin={setOpenLogin} setOpenSignUp={setOpenSignUp} />
+
+      <Login
+        openLogin={openLogin}
+        setOpenLogin={setOpenLogin}
+        setOpenSignUp={setOpenSignUp}
+        setloggedIn={setloggedIn}
+      />
       <SignUp openSignUp={openSignUp} setOpenSignUp={setOpenSignUp} setOpenLogin={setOpenLogin} />
     </Fragment>
   );
