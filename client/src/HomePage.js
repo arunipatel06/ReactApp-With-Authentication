@@ -1,25 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import NewNavbar from './Navbar';
-
-import { makeStyles } from '@material-ui/core/styles';
-import Background from './assests/homeImage.jpg';
-
-export const useStyles = makeStyles((theme) => ({
-  homeImage: {
-    height: '100vh',
-    width: '100%',
-    textAlign: 'center',
-    backgroundImage: `url(${Background})`,
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column',
-    padding: '0px',
-  },
-}));
+import Footer from './Footer';
+import { useStyles } from './JssStyleSheets/JssHomePage';
 
 const HomePage = (props) => {
   const classes = useStyles();
@@ -27,9 +9,10 @@ const HomePage = (props) => {
   return (
     <section className={classes.homeImage}>
       <div>
-        <div>
-          <NewNavbar />
-        </div>
+        <NewNavbar />
+      </div>
+      <div>
+        <Footer />
       </div>
     </section>
   );
