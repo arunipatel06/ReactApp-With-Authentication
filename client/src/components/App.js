@@ -18,9 +18,7 @@ class App extends Component {
       <div>
         <BrowserRouter>
           <ApolloProvider client={client}>
-            <Route exact path="/form" component={LoginForm} />
-            <Route exact path="/adduser" component={CreateUser} />
-            <Route exact path="/homepage" component={HomePage} />
+            <Route exact path="/" component={HomePage} />
           </ApolloProvider>
         </BrowserRouter>
       </div>
