@@ -9,19 +9,6 @@ const { comparePassword } = require('./utils.js');
 // The resolvers
 exports.resolvers = {
   Query: {
-    getAllRecipes: async (root, args) => {
-      let recipes = [];
-      const db = await mongo();
-      await db
-        .collection('list')
-        .find()
-        .toArray()
-        .then((docs) => {
-          recipes = docs;
-        });
-      return recipes;
-    },
-
     signIn: async (root, { emailAddress, password }) => {
       try {
         let user = {};
@@ -44,22 +31,6 @@ exports.resolvers = {
   },
 
   Mutation: {
-    addRecipe: async (root, args) => {
-      try {
-        const db = await mongo();
-        db.collection('list').insertOne({
-          name: args.name,
-          description: args.description,
-          category: args.category,
-          instructions: args.instructions,
-          username: args.username,
-        });
-        return args;
-      } catch (error) {
-        console.error(error.message);
-      }
-    },
-
     createUser: async (root, { firstName, lastName, emailAddress, password }) => {
       try {
         const db = await mongo();
