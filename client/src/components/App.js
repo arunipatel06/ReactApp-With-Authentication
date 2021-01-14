@@ -3,8 +3,6 @@ import { Route, BrowserRouter } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import './App.css';
-import LoginForm from './LoginForm';
-import CreateUser from './CreateUser';
 import HomePage from '../HomePage';
 
 const client = new ApolloClient({

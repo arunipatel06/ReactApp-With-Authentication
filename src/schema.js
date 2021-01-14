@@ -9,7 +9,6 @@ exports.typeDefs = gql`
     createdAt: Int
     password: String
     joinDate: String
-    favourites: [Recipe]
   }
   type loginInfo {
     isMatch: Boolean
