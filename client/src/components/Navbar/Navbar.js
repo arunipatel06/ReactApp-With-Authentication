@@ -1,8 +1,8 @@
 import React, { useState, Fragment } from 'react';
 import { Button } from '@material-ui/core';
-import Login from './Login';
-import SignUp from './SignUp';
-import { useStyles } from './JssStyleSheets/JssNavbar';
+import Login from '../Login/Login';
+import SignUp from '../SignUp/SignUp';
+import { useStyles } from './JssNavbar';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const NewNavbar = (props) => {

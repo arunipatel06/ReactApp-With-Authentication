@@ -24,7 +24,7 @@ exports.resolvers = {
         const isMatch = await comparePassword(user.password, password);
         return { isMatch };
       } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
         throw new Error(error.message);
       }
     },
@@ -48,7 +48,7 @@ exports.resolvers = {
         });
         return { firstName, lastName, emailAddress, accountId, createdAt };
       } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
         throw new Error(error.message);
       }
     },

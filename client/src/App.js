@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Route, BrowserRouter } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
-import './App.css';
-import HomePage from '../HomePage';
+import HomePage from './components/Home/HomePage';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql',

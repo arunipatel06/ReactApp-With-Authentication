@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-import NewNavbar from './Navbar';
-import Footer from './Footer';
-import { useStyles } from './JssStyleSheets/JssHomePage';
+import React from 'react';
+import NewNavbar from '../Navbar/Navbar';
+import Footer from '../Footer/Footer';
+import { useStyles } from './JssHomePage';
 
 const HomePage = (props) => {
   const classes = useStyles();
