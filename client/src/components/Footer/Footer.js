@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 
 const usestyles = makeStyles((theme) => ({
   div: {
@@ -21,7 +21,7 @@ const Footer = (props) => {
   return (
     <div className={classes.div}>
       <Typography className={classes.text}>
-        Copyright © 2020 Aruni Patel. All rights reserved
+        Copyright © 2021 Aruni Patel. All rights reserved
       </Typography>
     </div>
   );
