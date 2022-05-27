@@ -21,7 +21,7 @@ const Footer = (props) => {
   return (
     <div className={classes.div}>
       <Typography className={classes.text}>
-        Copyright © 2021 Aruni Patel. All rights reserved
+        Copyright © 2022 Aruni Patel. All rights reserved
       </Typography>
     </div>
   );

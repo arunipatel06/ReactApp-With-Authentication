@@ -11,15 +11,14 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "apollo-boost": "^0.4.9",
-    "apollo-client": "^2.6.10",
-    "graphql": "^15.4.0",
+    "graphql": "^15.1.0",
     "jwt-decode": "^3.0.0",
-    "react": "^16.13.1",
-    "react-apollo": "^3.1.5",
+    "react": "^16.13.1",  
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "uuid": "^8.3.0"
+   
   },
   "scripts": {
     "start": "react-scripts start",
@@ -59,7 +58,9 @@
         {
           "code": 100
         }
-      ]
+      ],
+      "import/prefer-default-export": "off",
+      "no-param-reassign": 0
     }
   },
   "lint-staged": {
